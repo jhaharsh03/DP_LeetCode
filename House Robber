@@ -1,0 +1,27 @@
+Q Link: https://leetcode.com/problems/house-robber/description/
+
+class Solution {
+public:
+    vector<int> dp;
+    int solve(vector<int> &dp, vector<int> &nums, int n){
+       if(n<0)return 0;
+       if(n == 0)return nums[0];
+       if(dp[n] != -1)return dp[n];
+       int inc = nums[n] + solve(dp, nums, n-2);
+       int exc = solve(dp, nums, n-1);
+       return dp[n] = max(inc, exc);
+    }
+
+
+
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+
+        dp.resize(n, -1);
+
+        int ans = solve(dp, nums, n-1);
+
+        return ans;
+        
+    }
+};
