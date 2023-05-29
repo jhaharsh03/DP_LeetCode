@@ -1,0 +1,23 @@
+Q Link: https://leetcode.com/problems/minimum-path-sum/?envType=study-plan-v2&id=dynamic-programming
+
+class Solution {
+public:
+    long long solve(vector<vector<long long>>& dp, vector<vector<int>>& grid, int i, int j) {
+        if (i == 0 && j == 0)
+            return grid[0][0];
+        if (i < 0 || j < 0)
+            return INT_MAX;
+        if (dp[i][j] != -1)
+            return dp[i][j];
+        long long up = grid[i][j] + solve(dp, grid, i - 1, j);
+        long long left = grid[i][j] + solve(dp, grid, i, j - 1);
+        return dp[i][j] = min(up, left);
+    }
+
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<long long>> dp(m, vector<long long>(n, -1));
+        return static_cast<int>(solve(dp, grid, m - 1, n - 1));
+    }
+};
