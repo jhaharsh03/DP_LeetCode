@@ -1,0 +1,26 @@
+Q Link: https://leetcode.com/problems/minimum-falling-path-sum/description/
+
+class Solution {
+public:
+    long long solve(vector<vector<int>> &matrix, vector<vector<int>> &dp, int i, int j){
+        if(j < 0 || j >= matrix.size())return 1e9; 
+        if(i == 0)return matrix[i][j];
+        if(dp[i][j] != -1)return dp[i][j];
+        long long s = matrix[i][j] + solve(matrix, dp, i-1, j);
+        long long ld = matrix[i][j] + solve(matrix, dp, i-1, j-1);
+        long long lr = matrix[i][j] + solve(matrix, dp, i-1, j+1);
+        return dp[i][j] = min(s, min(ld, lr));
+    }
+
+
+
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n = matrix.size(); 
+        vector<vector<int>> dp(n, vector<int> (n, -1));
+        int ans = INT_MAX;
+        for(int j = 0; j<n ; j++){
+            ans = min(ans, (int)solve(matrix, dp, n-1, j));
+        }
+        return ans;
+    }
+};
